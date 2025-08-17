@@ -216,7 +216,7 @@ const ChatBot = () => {
             )}
 
             {/* הצעות מהירות */}
-            {showQuickSuggestions  && (
+            {showQuickSuggestions && (
               <div className="quick-suggestions">
                 <div className="suggestions-header">
                   <FaLightbulb />

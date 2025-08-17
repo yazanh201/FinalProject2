@@ -312,7 +312,14 @@ const CarsTable = () => {
               type="text"
               className="form-control"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value.replace(/\D/g, ""))} // ✅ מאפשר רק מספרים
+              onChange={(e) => {
+                const numbersOnly = e.target.value.replace(/\D/g, ""); // רק ספרות
+                if (numbersOnly.length <= 9) {
+                  setSearchQuery(numbersOnly);
+                }
+              }}
+              placeholder="הכנס תעודת זהות (עד 9 ספרות)"
+              maxLength={9}
               required
             />
           </div>

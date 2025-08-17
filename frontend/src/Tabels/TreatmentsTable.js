@@ -289,10 +289,13 @@ const TreatmentsTable = ({
             placeholder="הזן מספר רכב"
             value={searchTerm}
             inputMode="numeric"
+            maxLength={8}
             onChange={(e) => {
-              // ✅ מסנן כך שיישארו רק ספרות
+              // מסנן תווים לא מספריים ומגביל ל־8 ספרות
               const onlyNumbers = e.target.value.replace(/[^0-9]/g, "");
-              setSearchTerm(onlyNumbers);
+              if (onlyNumbers.length <= 8) {
+                setSearchTerm(onlyNumbers);
+              }
             }}
           />
         </Modal>

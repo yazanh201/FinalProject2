@@ -52,8 +52,7 @@ const AddCustomerWithCar = () => {
       };
 
       // שליחת בקשת POST לשרת להוספת לקוח
-      await axios.post("https://garage-backend-z20t.onrender.com/api/customers", payload);
-
+      await axios.post("http://localhost:5000/api/customers", payload);
 
       // הודעת הצלחה וניווט לעמוד השלמה
       toast.success("הלקוח נשמר בהצלחה!");

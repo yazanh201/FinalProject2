@@ -243,7 +243,20 @@ const Inquiries = () => {
             className="form-control"
             placeholder="הזן שם או טלפון"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              const input = e.target.value;
+              
+              // אם זה רק ספרות – מגביל ל-10 ספרות
+              if (/^\d*$/.test(input)) {
+                if (input.length <= 10) {
+                  setSearchTerm(input);
+                }
+              }
+              // אם זה טקסט – אותיות ורווחים בלבד
+              else if (/^[a-zA-Zא-ת\s]*$/.test(input)) {
+                setSearchTerm(input);
+              }
+            }}
           />
         </Modal>
       )}

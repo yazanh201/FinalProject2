@@ -513,6 +513,7 @@
     display: none !important;
   }
   
+  @media print {
   .invoiceContainer {
     box-shadow: none;
     border: none;
@@ -522,6 +523,8 @@
     background: white !important; /* רקע לבן בהדפסה */
     color: black !important; /* טקסט שחור בהדפסה */
   }
+}
+
   
   .actionButtons {
     display: none !important;
@@ -687,9 +690,6 @@
   }
 }
 
-.invoiceContainer {
-  animation: fadeInUp 0.5s ease-out;
-}
 
 /* אפקטים נוספים */
 .itemsTable tr {

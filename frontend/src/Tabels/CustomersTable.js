@@ -173,6 +173,24 @@ const Customers = () => {
     }
   };
 
+
+  const handleValidatedInput = (e) => {
+  const input = e.target.value;
+
+  // בדיקה אם זה מספר בלבד
+  if (/^\d*$/.test(input)) {
+    // הגבלת ת"ז ל־9 ספרות בלבד
+    if (input.length <= 9) {
+      setSearchQuery(input);
+    }
+  }
+  // בדיקה אם זה תווים בלבד (עברית/אנגלית ורווחים)
+  else if (/^[a-zA-Zא-ת\s]*$/.test(input)) {
+    setSearchQuery(input);
+  }
+};
+
+
   return (
     <div>
       <div className="text-center">
@@ -285,7 +303,14 @@ const Customers = () => {
           <h3>חיפוש לקוח לפי תעודת זהות או שם</h3>
           <div className="form-group mb-3">
             <label>הזן ת"ז / שם</label>
-            <input type="text" className="form-control" placeholder="תעודת זהות / שם" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} required />
+            <input
+              type="text"
+              className="form-control"
+              placeholder="תעודת זהות / שם"
+              value={searchQuery}
+              onChange={handleValidatedInput}
+              required
+            />
           </div>
         </Modal>
       )}

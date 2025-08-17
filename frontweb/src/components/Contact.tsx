@@ -25,7 +25,7 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("https://garage-backend-z20t.onrender.com/api/inquiries", {
+      const res = await fetch("http://localhost:5000/api/inquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
@@ -154,13 +154,17 @@ const Contact = () => {
               <div>
                 <label className="block text-white font-medium mb-2">טלפון</label>
                 <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="מספר טלפון"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 transition-colors"
-                />
+  type="tel"
+  name="phone"
+  value={formData.phone}
+  onChange={handleChange}
+  placeholder="מספר טלפון"
+  maxLength="10"
+  pattern="[0-9]*"
+  inputMode="numeric"
+  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 transition-colors"
+/>
+
               </div>
 
               <div>

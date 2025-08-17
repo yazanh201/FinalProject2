@@ -269,12 +269,16 @@ const Appointments = ({ onSelectTreatment, filterAppointmentNumber }) => {
           placeholder="חיפוש לפי ת'ז או מספר רכב"
           value={searchTerm}
           onChange={(e) => {
-            const value = e.target.value.replace(/\D/g, ""); // ✅ הסרת תווים לא מספריים
-            setSearchTerm(value);
+            const value = e.target.value.replace(/\D/g, ""); // השאר רק ספרות
+            if (value.length <= 10) {
+              setSearchTerm(value);
+            }
           }}
           inputMode="numeric"
           pattern="[0-9]*"
+          maxLength={10}
         />
+
       </Modal>
     )}
 

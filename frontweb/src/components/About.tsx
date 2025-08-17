@@ -50,9 +50,6 @@ const About = () => {
               </div>
             </div>
 
-            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-200 hover:scale-105">
-              קראו עוד עלינו
-            </button>
           </div>
 
           {/* Stats */}

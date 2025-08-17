@@ -32,7 +32,7 @@ const Modal = ({ isOpen, onClose, onSave, children }) => {
 
           {/* כפתור לשמירת הנתונים */}
           <button onClick={onSave} className="btn btn-primary">
-            חיפוש
+            אישור
           </button>
         </div>
       </div>

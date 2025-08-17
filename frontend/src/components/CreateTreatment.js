@@ -207,7 +207,7 @@ const CreateTreatment = () => {
         setSelectedCategories([]);
         setSelectedCategory('');
       } else {
-        navigate(-1); // חזרה לעמוד הקודם לאחר עדכון
+        navigate("/dashboard"); // חזרה לעמוד הקודם לאחר עדכון
       }
 
     } catch (err) {
@@ -329,7 +329,7 @@ const CreateTreatment = () => {
 
             <div className="col-12 text-center mt-4">
               <button type="submit" className="btn btn-success mx-2 px-4">שמור ושלח</button>
-              <button type="button" className="btn btn-secondary mx-2 px-4" onClick={() => navigate(-1)}>ביטול</button>
+              <button type="button" className="btn btn-secondary mx-2 px-4" onClick={() => navigate("/dashboard")}>ביטול</button>
             </div>
           </div>
         </form>
