@@ -184,6 +184,12 @@ const Dashboard = () => {
                       >
                         קביעת תור <FaCalendarAlt />
                       </button>
+                      <button
+                          className={styles["dropdown-item"]}
+                          onClick={() => navigate("/add-user-form")}
+                        >
+                        הוספת משתמש/עובד<FaPlusCircle />
+                      </button>
                     </>
                   )}
                   <button

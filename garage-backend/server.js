@@ -15,6 +15,8 @@ const authRoutes = require('./routes/auth.routes');
 const carOrderRoutes = require('./routes/carOrder.routes');
 const invoiceRoutes = require('./routes/invoice.routes');
 const emailRoutes = require('./routes/email.routes');
+const userRoutes = require("./routes/userRoutes");
+
 
 // יצירת אפליקציה
 const app = express();
@@ -54,6 +56,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/carorders', carOrderRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/email', emailRoutes);
+app.use("/api/users", userRoutes);
 
 // 🌐 מסלול בדיקה ראשי
 app.get('/', (req, res) => {

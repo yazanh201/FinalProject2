@@ -3,21 +3,24 @@ import Modal from "./Modal";
 import "../Pages/cssfiles/TablesResponsive.css";
 
 const Employees = () => {
-  const [employees, setEmployees] = useState([]); // רשימת העובדים
-  const [modalType, setModalType] = useState(null); // סוג המודאל: add/edit
+  const [employees, setEmployees] = useState([]); 
+  const [modalType, setModalType] = useState(null); 
   const [selectedEmployee, setSelectedEmployee] = useState({
     idNumber: "",
     fullName: "",
-    role: "",
     email: "",
     phone: "",
+    role: "employee", // ברירת מחדל תמיד עובד
   });
 
-  // ✅ שליפת עובדים בעת טעינה
+  // ✅ שליפת משתמשים עם role=employee
   useEffect(() => {
-    fetch("http://localhost:5000/api/employees")
+    fetch("http://localhost:5000/api/users")
       .then((res) => res.json())
-      .then((data) => setEmployees(data))
+      .then((data) => {
+        const onlyEmployees = data.filter((u) => u.role === "employee");
+        setEmployees(onlyEmployees);
+      })
       .catch((err) => console.error("❌ שגיאה בשליפת עובדים:", err));
   }, []);
 
@@ -25,16 +28,14 @@ const Employees = () => {
   const handleShowModal = (type, employee = null) => {
     setModalType(type);
     if (type === "add") {
-      // אם הוספה – נקה את השדות
       setSelectedEmployee({
         idNumber: "",
         fullName: "",
-        role: "",
         email: "",
         phone: "",
+        role: "employee", // הוספה תמיד תיצור עובד
       });
     } else if (type === "edit" && employee) {
-      // אם עריכה – טען את הנתונים לעובד שנבחר
       setSelectedEmployee(employee);
     }
   };
@@ -47,11 +48,9 @@ const Employees = () => {
 
   // ✅ שמירה – הוספה או עדכון
   const handleSave = async () => {
-    // בדיקת ולידציה – כל השדות חובה
     if (
       !selectedEmployee.idNumber ||
       !selectedEmployee.fullName ||
-      !selectedEmployee.role ||
       !selectedEmployee.email ||
       !selectedEmployee.phone
     ) {
@@ -63,25 +62,23 @@ const Employees = () => {
       const method = modalType === "edit" ? "PUT" : "POST";
       const url =
         modalType === "edit"
-          ? `http://localhost:5000/api/employees/${selectedEmployee._id}`
-          : "http://localhost:5000/api/employees";
+          ? `http://localhost:5000/api/users/${selectedEmployee._id}`
+          : "http://localhost:5000/api/users";
 
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(selectedEmployee),
+        body: JSON.stringify({ ...selectedEmployee, role: "employee" }), // תוודא שתמיד עובד
       });
 
       const data = await res.json();
 
       if (modalType === "edit") {
-        // עדכון עובד קיים
         setEmployees((prev) =>
           prev.map((emp) => (emp._id === data._id ? data : emp))
         );
         alert("✅ עובד עודכן בהצלחה!");
       } else {
-        // הוספת עובד חדש
         setEmployees((prev) => [data, ...prev]);
         alert("✅ עובד נוסף בהצלחה!");
       }
@@ -97,7 +94,7 @@ const Employees = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("האם אתה בטוח שברצונך למחוק את העובד הזה?")) return;
     try {
-      await fetch(`http://localhost:5000/api/employees/${id}`, {
+      await fetch(`http://localhost:5000/api/users/${id}`, {
         method: "DELETE",
       });
       setEmployees((prev) => prev.filter((emp) => emp._id !== id));
@@ -108,18 +105,12 @@ const Employees = () => {
     }
   };
 
-
   return (
     <div className="container mt-4">
       <div className="text-center mb-4">
         <h2>עובדים</h2>
       </div>
 
-      <div className="d-flex mb-3">
-        <button className="btn btn-primary me-3" onClick={() => handleShowModal("add")}>
-          הוסף עובד חדש
-        </button>
-      </div>
 
       <div className="responsiveTableContainer">
         <table className="table table-striped">
@@ -127,7 +118,6 @@ const Employees = () => {
             <tr>
               <th>ת.ז</th>
               <th>שם מלא</th>
-              <th>תפקיד</th>
               <th>אימייל</th>
               <th>טלפון</th>
               <th>פעולות</th>
@@ -138,7 +128,6 @@ const Employees = () => {
               <tr key={emp._id}>
                 <td>{emp.idNumber}</td>
                 <td>{emp.fullName}</td>
-                <td>{emp.role}</td>
                 <td>{emp.email}</td>
                 <td>{emp.phone}</td>
                 <td>
@@ -173,11 +162,11 @@ const Employees = () => {
                 className="form-control"
                 value={selectedEmployee.idNumber || ""}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, ""); // ✅ רק מספרים
+                  const value = e.target.value.replace(/\D/g, ""); 
                   setSelectedEmployee({ ...selectedEmployee, idNumber: value });
                 }}
                 maxLength={9}
-                minLength={9}
+                minLength={5}
                 inputMode="numeric"
                 required
               />
@@ -191,29 +180,11 @@ const Employees = () => {
                 className="form-control"
                 value={selectedEmployee.fullName || ""}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/[^א-תa-zA-Z\s]/g, ""); // ✅ רק אותיות
+                  const value = e.target.value.replace(/[^א-תa-zA-Z\s]/g, "");
                   setSelectedEmployee({ ...selectedEmployee, fullName: value });
                 }}
                 required
               />
-            </div>
-
-            {/* תפקיד */}
-            <div className="form-group mb-3">
-              <label>תפקיד</label>
-              <select
-                className="form-control"
-                value={selectedEmployee.role || ""}
-                onChange={(e) =>
-                  setSelectedEmployee({ ...selectedEmployee, role: e.target.value })
-                }
-                required
-              >
-                <option value="">בחר תפקיד</option>
-                <option value="מכונאי">מכונאי</option>
-                <option value="חשמלאי">חשמלאי</option>
-                <option value="עובד ניקיון">עובד ניקיון</option>
-              </select>
             </div>
 
             {/* אימייל */}
@@ -238,11 +209,11 @@ const Employees = () => {
                 className="form-control"
                 value={selectedEmployee.phone || ""}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, ""); // ✅ רק מספרים
+                  const value = e.target.value.replace(/\D/g, "");
                   setSelectedEmployee({ ...selectedEmployee, phone: value });
                 }}
                 maxLength={10}
-                minLength={9}
+                minLength={7}
                 inputMode="numeric"
                 required
               />
@@ -250,6 +221,7 @@ const Employees = () => {
           </form>
         </Modal>
       )}
+
     </div>
   );
 };

@@ -9,8 +9,8 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
     // יצירת משתמשים
     const users = [
-      { username: 'admin', password: '1234', role: 'admin' },
-      { username: 'employee', password: '1234', role: 'employee' },
+      { username: 'admin2', password: '12345', role: 'admin' },
+      { username: 'employee2', password: '12345', role: 'employee' },
     ];
 
     for (const userData of users) {

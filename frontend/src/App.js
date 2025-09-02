@@ -14,6 +14,7 @@ import InvoicePage from './components/InvoicePage';
 import AddCustomerWithVehicle from './components/AddCustomerWithVehicle';
 import AddVehicle from './components/AddVehicle';
 import MonthlyReport from './components/MonthlyReportComponent';
+import AddUser from './components/add_users';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/create-treatment" element={<CreateTreatment />} />
         <Route path="/invoice/:treatmentId" element={<InvoicePage />} />
         <Route path="/add-customer-with-vehicle" element={<AddCustomerWithVehicle />} />
+        <Route path="/add-user-form" element={<AddUser />} />
         <Route path="/complete-vehicle/:plateNumber" element={<AddVehicle />} />
         <Route
           path="/Dashboard"

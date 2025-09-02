@@ -3,6 +3,28 @@ const bcrypt = require('bcrypt');
 
 // סכמת משתמש
 const userSchema = new mongoose.Schema({
+  idNumber: {   // תעודת זהות
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 5,
+    maxlength: 9,
+  },
+  fullName: {   // שם מלא
+    type: String,
+    required: true,
+    trim: true,
+  },
+  phone: {      // טלפון
+    type: String,
+    required: true,
+  },
+  email: {      // אימייל
+    type: String,
+    required: true,
+    lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, "כתובת מייל לא תקינה"],
+  },
   username: {
     type: String,
     required: true,
@@ -12,7 +34,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true, // סיסמה חובה
-    minlength: 4,    // אורך מינימלי
+    minlength: 4,   // אורך מינימלי
   },
   role: {
     type: String,
