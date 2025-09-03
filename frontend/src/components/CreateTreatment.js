@@ -80,7 +80,7 @@ const CreateTreatment = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
-    // ✅ טעינת קטגוריות אם קיימות בעריכה
+  // ✅ טעינת קטגוריות אם קיימות בעריכה
     if (state.treatmentServices) {
       try {
         const parsed = typeof state.treatmentServices === 'string'
@@ -92,12 +92,16 @@ const CreateTreatment = () => {
       }
     }
 
-    // ✅ שליפת עובדים מהשרת
-    fetch("http://localhost:5000/api/employees")
+    // ✅ שליפת עובדים שהם משתמשים עם role = employee
+    fetch("http://localhost:5000/api/users")
       .then(res => res.json())
-      .then(data => setEmployees(data))
-      .catch(err => console.error("❌ שגיאה בשליפת עובדים:", err));
+      .then(data => {
+        const employeesOnly = data.filter(u => u.role === "employee");
+        setEmployees(employeesOnly);
+      })
+      .catch(err => console.error("❌ שגיאה בשליפת משתמשים:", err));
   }, [state.treatmentServices]);
+
 
   // שינוי בשדות טופס בסיסיים
   const handleChange = (e) => {
