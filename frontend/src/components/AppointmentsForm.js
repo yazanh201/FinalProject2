@@ -66,17 +66,38 @@ const CreateAppointment = () => {
   }, [location.state, id]);
 
   // שליפת שעות פנויות לתאריך מסוים
-  const fetchAvailableTimes = async (date) => {
+  // שליפת שעות פנויות לתאריך מסוים
+const fetchAvailableTimes = async (date) => {
     if (!date) return;
     try {
       const res = await fetch(`http://localhost:5000/api/appointments/available-times/${date}`);
       const data = await res.json();
-      const times = data.includes(form.time) || !form.time ? data : [...data, form.time];
-      setAvailableTimes(times); // עדכון זמני תור אפשריים
+
+      let times = data;
+
+      // ✅ סינון שעות עבר אם מדובר בתאריך של היום
+      const today = new Date().toISOString().split("T")[0];
+      if (date === today) {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMinutes = now.getMinutes();
+
+        times = times.filter((time) => {
+          const [h, m] = time.split(":").map(Number);
+          return h > currentHour || (h === currentHour && m > currentMinutes);
+        });
+      }
+
+      // שמירה של השעה הקיימת אם בעריכה
+      const finalTimes =
+        times.includes(form.time) || !form.time ? times : [...times, form.time];
+
+      setAvailableTimes(finalTimes);
     } catch (error) {
-      console.error('❌ שגיאה בשליפת שעות פנויות:', error);
+      console.error("❌ שגיאה בשליפת שעות פנויות:", error);
     }
   };
+
 
   // שינוי בשדות הטופס
   const handleChange = (e) => {

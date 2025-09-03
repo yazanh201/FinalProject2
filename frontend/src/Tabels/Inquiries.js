@@ -159,7 +159,17 @@ const Inquiries = () => {
                 <td>{index + 1}</td>
                 <td>{inquiry.name}</td>
                 <td>{inquiry.email}</td>
-                <td>{inquiry.phone}</td>
+                <td>
+                  <a
+                    href={`https://wa.me/${inquiry.phone.replace(/\D/g, "")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-decoration"
+                  >
+                    {inquiry.phone}
+                  </a>
+                </td>
+
                 <td>{inquiry.message}</td>
                 <td className={inquiry.status === "פתוחה" ? "text-success" : "text-danger"}>
                   {inquiry.status}
