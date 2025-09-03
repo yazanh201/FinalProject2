@@ -103,8 +103,8 @@ const CarOrders = () => {
     </div>
 
     {/* טבלת הזמנות רכב */}
-    <div className="responsiveTableContainer">
-      <table className="table table-striped">
+    <div className="table-responsive" dir="rtl">
+      <table className="table table-striped table-bordered align-middle">
         <thead>
           <tr>
             <th>מספר רכב</th>

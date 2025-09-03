@@ -158,9 +158,9 @@ const TreatmentsTable = ({
         </button>
       </div>
 
-     <div className="responsiveTableContainer">
-        <table className="table table-striped">
-          <thead>
+     <div className="table-responsive" dir="rtl">
+      <table className="table table-striped table-bordered align-middle">
+        <thead>
             <tr>
               <th>מזהה טיפול</th>
               <th>תאריך</th>
